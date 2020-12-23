@@ -239,17 +239,73 @@ E unlink(Node<E> x) {
         x.prev = null;
     }
 
+    // 如果下一个节点是空，那就移出的是最后一个节点
     if (next == null) {
+        // 那么最后一个节点就是当前元素指向的上一个节点
         last = prev;
     } else {
+        // 下一个节点的上一个节点就是当前元素的上一个节点
         next.prev = prev;
+        // 当前节点的下一个节点置空
         x.next = null;
     }
 
+    // 当前节点的值置空
     x.item = null;
+    // size--
     size--;
     modCount++;
     return element;
 }
 ```
+
+remove\(object\)
+
+```text
+public boolean remove(Object o) {
+    if (o == null) {
+        for (Node<E> x = first; x != null; x = x.next) {
+            if (x.item == null) {
+                unlink(x);
+                return true;
+            }
+        }
+    } else {
+        for (Node<E> x = first; x != null; x = x.next) {
+            if (o.equals(x.item)) {
+                unlink(x);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+```
+
+可以看到，这个先通过循环去获取当前的节点，然后就调用unlinx\(\)
+
+#### 6、获取当前的节点
+
+```text
+/**
+ * Returns the (non-null) Node at the specified element index.
+ */
+Node<E> node(int index) {
+    // assert isElementIndex(index);
+
+    if (index < (size >> 1)) {
+        Node<E> x = first;
+        for (int i = 0; i < index; i++)
+            x = x.next;
+        return x;
+    } else {
+        Node<E> x = last;
+        for (int i = size - 1; i > index; i--)
+            x = x.prev;
+        return x;
+    }
+}
+```
+
+从代码中可以看到，通过index获取节点也是需要通过循环去获取的。
 

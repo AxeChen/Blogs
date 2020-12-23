@@ -220,14 +220,22 @@ public E remove(int index) {
 ```text
 E unlink(Node<E> x) {
     // assert x != null;
+    // 传入的x 是index索引下的节点
+    // 获取当前的元素
     final E element = x.item;
+    // 获取当前元素指向的下一个节点
     final Node<E> next = x.next;
+    // 获取当前节点指向的上一个节点
     final Node<E> prev = x.prev;
 
+    //如果上一个节点是空的
     if (prev == null) {
+    // 那么第一个节点就是指向下一个节点
         first = next;
     } else {
+        // 上一个节点指向的下一个节点等于当前节点指向的下一个节点
         prev.next = next;
+        // 当前的节点的上一个节点置空
         x.prev = null;
     }
 
